@@ -7,10 +7,6 @@ StartTest(function (t) {
         renderTo   : Ext.getBody()
     });
 
-    t.firesOnce(cb, 'click');
-    t.firesOnce(cb, 'dblclick');
-    t.firesOnce(cb, 'contextmenu');
-
     t.chain(
         { click : cb },
 
@@ -21,9 +17,11 @@ StartTest(function (t) {
         },
 
         { waitFor : 500 },
-        { rightclick : cb },
 
-        { waitFor : 500 },
-        { dblclick : cb }
+        { click : 'checkbox => label' },
+
+        function (next) {
+            t.notOk(cb.getValue(), 'Checkbox should react to clicks on its label');
+        }
     );
 });
